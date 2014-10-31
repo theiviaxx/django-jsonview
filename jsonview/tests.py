@@ -130,6 +130,7 @@ class JsonViewTests(TestCase):
         data = json.loads(res.content.decode('utf-8'))
         eq_(500, data['error'])
         eq_('fail', data['message'])
+        eq_(True, 'traceback' in data)
 
     @override_settings(DEBUG=False)
     def test_server_error_no_debug(self):
@@ -143,6 +144,7 @@ class JsonViewTests(TestCase):
         data = json.loads(res.content.decode('utf-8'))
         eq_(500, data['error'])
         eq_('An error occurred', data['message'])
+        eq_(False, 'traceback' in data)
 
     def test_http_status(self):
         @json_view
